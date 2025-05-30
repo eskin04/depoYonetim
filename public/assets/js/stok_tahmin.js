@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
       .then(res => res.json())
       .then(data => {
-        resultBox.innerHTML = data.result || "Tahmin alınamadı.";
+      resultBox.innerHTML = (data.result || "Tahmin alınamadı.").replace(/\n|\\n/g, "<br>");
       })
       .catch(() => {
         resultBox.innerHTML = "Sunucu hatası. Lütfen tekrar deneyin.";

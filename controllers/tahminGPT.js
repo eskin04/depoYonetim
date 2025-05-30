@@ -48,18 +48,25 @@ const stokTahmin = (req, res) => {
         // GPT metni
         const hareketMetni = hareketler.map(h => `- ${h.tarih}: ${h.hareket_tipi} ${h.miktar}`).join("\n");
 
-        const prompt = `
-Aşağıda "${urunAdi}" adlı ürünün geçmiş stok hareketleri tarih sırasına göre verilmiştir.
+const prompt = `
+"${urunAdi}" adlı ürünün geçmiş stok hareketleri aşağıda verilmiştir:
 
 ${hareketMetni}
 
 Bu ürün şu anda depoda toplam ${mevcutStok} adet bulunmaktadır.
 
-Senin görevin:
-- Bu hareketlerin ritmine bakarak ürünün ortalama ne kadar sürede ne kadar tükendiğini analiz et.
-- Mevcut stok bu hızla giderse yaklaşık ne zaman tükenir?
-- Analitik ama sade bir açıklama yap. Gereksiz tekrar ve süsleme olmasın.
+Lütfen bu verilere dayanarak aşağıdaki sorulara sadece kısa ve sade cevaplar ver:
+
+1. Bu ürün ortalama ne kadar sürede ne kadar tükeniyor?
+2. Bu hızla giderse yaklaşık kaç gün sonra stok tamamen tükenir?
+3. Beklenen tükenme tarihi nedir? (Bugün: Mayıs 2025 kabul et)
+
+📌 Hesaplamaları detaylandırmadan yaz. Paragraflar, tekrarlar veya semboller kullanma. Sadece açık, sade ve profesyonel bir dil kullan. Cevabını şu formatta ver (her satır kendi başında):
+- Ortalama tüketim: ...  
+- Tükenme süresi: ...  
+- Tahmini tarih: ...
 `;
+
 
         try {
           const gptRes = await openai.chat.completions.create({
