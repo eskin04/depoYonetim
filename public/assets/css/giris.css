@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: sans-serif;
+    background-image: linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url("../imgs/depo_arkaplanı.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .login-container {
+    width: 300px;
+    margin: 200px auto;
+    background-color:  #2a2185;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    color: #fff;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-top: 10px;
+    color: #fff;
+  }
+  
+  input {
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    font-weight: bold;
+    border: 10px solid #fff;
+    background-color: transparent;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  
+  button:hover {
+    background-color: #fff;
+    color: #2a2185;
+  }
+

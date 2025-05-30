@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Stok Tahmin Sistemi</title>
+    <link rel="stylesheet" href="assets/css/urunler.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="people-circle-outline"></ion-icon>
+                        </span>
+                        <span class="title">Depo Yönetim Sistemi</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="dashboard.html">
+                        <span class="icon">
+                            <ion-icon name="stats-chart-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="urunler.html">
+                        <span class="icon">
+                            <ion-icon name="construct-outline"></ion-icon>
+                        </span>
+                        <span class="title">Ürünler</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="depo.html">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Depolar</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="stok_durumu.html">
+                        <span class="icon">
+                            <ion-icon name="clipboard-outline"></ion-icon>
+                        </span>
+                        <span class="title">Stok Durumu</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="gorseltani.html">
+                        <span class="icon">
+                            <ion-icon name="clipboard-outline"></ion-icon>
+                        </span>
+                        <span class="title">Görsel Tanı</span>
+                    </a>
+                </li>
+                
+
+                <li class="sign_out">
+                    <a href="index.html">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    <div class="main">
+      <div class="topbar">
+        <div class="toggle"><ion-icon name="menu-outline"></ion-icon></div>
+        <div class="user"><img src="assets/imgs/akif.jpg" alt="user" /></div>
+      </div>
+
+      <div class="details">
+        <div class="recentOrders">
+          <div class="cardHeader">
+            <h2>Stok Tahmin Sistemi</h2>
+          </div>
+
+<div class="filter-area">
+  <input type="text" id="urunArama" placeholder="Ürün adını yazınız..." />
+  <ul id="sonucListesi" style="list-style:none; padding-left:0; margin-top:10px;"></ul>
+  <button id="tahminBtn">Tahmin Al</button>
+</div>
+
+          <div id="resultBox" class="result-box" style="margin-top: 20px; font-size: 16px; color: #222;">
+            Lütfen bir ürün seçin ve "Tahmin Al" butonuna tıklayın.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="assets/js/stok_tahmin.js"></script>
+</body>
+</html>

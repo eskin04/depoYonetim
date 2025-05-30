@@ -1,0 +1,146 @@
+/* === Görsel Tanıma Alanı Genel Yerleşim === */
+.cardBox.upload-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  width: 100%;
+}
+
+/* === Kart Stil Ayarı === */
+.card.image-upload-card {
+  width: 100%;
+  max-width: 800px;
+  padding: 30px;
+  background-color: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  transition: none; /* hover kaldırıldı */
+}
+
+/* Hover etkisi bu kart için iptal edildi */
+.card.image-upload-card:hover {
+  background: var(--white);
+  color: var(--black1);
+  cursor: default;
+}
+
+/* === Başlık === */
+.image-upload-card h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--black1);
+}
+
+/* === Dosya Yükleme Input === */
+.upload-label {
+  font-weight: 500;
+  color: var(--black1);
+}
+
+.upload-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid var(--black2);
+  border-radius: 6px;
+  width: 100%;
+  max-width: 100%;
+  background-color: var(--gray);
+  transition: border-color 0.2s;
+}
+.upload-input:focus {
+  border-color: var(--blue);
+  outline: none;
+}
+
+/* === Görsel Önizleme === */
+.image-preview {
+  width: 100%;
+  display: none;
+}
+
+.image-preview img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* === Analiz Butonu === */
+.analyze-btn {
+  font-size: 16px;
+  padding: 12px 24px;
+  background-color: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+.analyze-btn:hover {
+  background-color: #1e1c6e;
+  
+}
+
+/* === Sonuç Alanı === */
+.result-box {
+  font-size: 15px;
+  color: var(--black1);
+  background-color: var(--gray);
+  padding: 10px 15px;
+  border-radius: 6px;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.result-box {
+  font-size: 13px; /* örneğin: 14px */
+  color: var(--black1);
+  background-color: var(--gray);
+  padding: 10px 15px;
+  border-radius: 6px;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.analysis-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  margin-top: 30px;
+  padding: 20px;
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap;
+}
+
+.analysis-image {
+  width: 300px;
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.analysis-text {
+  flex: 1;
+  min-width: 250px;
+}
+
+.analysis-text h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: var(--blue);
+}
+
+#analysisText {
+  font-size: 15px;
+  color: var(--black1);
+  background-color: var(--gray);
+  padding: 15px;
+  border-radius: 8px;
+}
