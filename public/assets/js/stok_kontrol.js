@@ -1,16 +1,91 @@
-document.addEventListener("DOMContentLoaded", () => {
+let allData = [];
+
+function renderTable(data) {
   const tableBody = document.getElementById("stokTableBody");
+  const kritikFilter = document.getElementById("kritikFilter");
+
+  tableBody.innerHTML = "";
+  data.forEach(item => {
+    const isKritik = item.stok_sayisi < 50;
+    const kritikMod = kritikFilter?.checked;
+
+    let buttonHTML = "";
+
+    if (kritikMod && isKritik) {
+      // Sadece "Stok Artır" butonu
+      buttonHTML = `
+        <button class="btn-kritik-guncelle"
+          data-urun="${item.urun_adi}" 
+          data-depo="${item.depo_adi}" 
+          data-mevcut="${item.stok_sayisi}">
+          <ion-icon name="arrow-up-outline"></ion-icon>
+          <span>Sipariş Ver</span>
+        </button>`;
+    } else {
+      // Sadece "Düzenle" butonu
+      buttonHTML = `
+        <button class="edit-icon-btn open-modal-btn"
+          data-urun="${item.urun_adi}" 
+          data-depo="${item.depo_adi}" 
+          data-miktar="${item.stok_sayisi}">
+          <ion-icon name="create-outline"></ion-icon>
+        </button>`;
+    }
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${item.urun_adi}</td>
+      <td>${item.kategori_adi || "-"}</td>
+      <td>${item.depo_adi}</td>
+      <td style="color:${isKritik ? 'red' : 'inherit'}">${item.stok_sayisi}</td>
+      <td>${buttonHTML}</td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+
+
+function applyFilters() {
   const searchInput = document.getElementById("searchInput");
   const kategoriFilter = document.getElementById("kategoriFilter");
   const depoFilter = document.getElementById("depoFilter");
   const kritikFilter = document.getElementById("kritikFilter");
 
-  let allData = [];
+  const search = searchInput.value.toLowerCase();
+  const kategori = kategoriFilter.value;
+  const depo = depoFilter.value;
+  const kritik = kritikFilter.checked;
 
-  // 1. Gruplama Fonksiyonu (kategori birleştir)
+  const filtered = allData.filter(item => {
+    const matchSearch = item.urun_adi.toLowerCase().includes(search);
+    const matchKategori = kategori === "" || item.kategori_adi.includes(kategori);
+    const matchDepo = depo === "" || item.depo_adi === depo;
+    const matchKritik = !kritik || item.stok_sayisi < 50;
+    return matchSearch && matchKategori && matchDepo && matchKritik;
+  });
+
+  renderTable(filtered);
+}
+
+function showToast(message = "Stok başarıyla güncellendi ✅") {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2000);
+}
+
+function closeModal() {
+  document.getElementById("stokModal").style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchInput");
+  const kategoriFilter = document.getElementById("kategoriFilter");
+  const depoFilter = document.getElementById("depoFilter");
+  const kritikFilter = document.getElementById("kritikFilter");
+
   function groupData(data) {
     const map = new Map();
-
     data.forEach(item => {
       const key = `${item.urun_adi}-${item.depo_adi}`;
       if (!map.has(key)) {
@@ -30,107 +105,87 @@ document.addEventListener("DOMContentLoaded", () => {
     }));
   }
 
-  // 2. Dropdown'ları doldur
   function fillDropdowns(data) {
     const kategoriler = new Set();
     const depolar = new Set();
 
-data.forEach(item => {
-    if (item.kategori_adi) {
-      item.kategori_adi.split(",").forEach(k => {
-        kategoriler.add(k.trim());
-      });
-    }
-    if (item.depo_adi) {
-      depolar.add(item.depo_adi);
-    }
-  });
+    data.forEach(item => {
+      if (item.kategori_adi) {
+        item.kategori_adi.split(",").forEach(k => kategoriler.add(k.trim()));
+      }
+      if (item.depo_adi) {
+        depolar.add(item.depo_adi);
+      }
+    });
+
     kategoriFilter.innerHTML = '<option value="">Kategori (Tümü)</option>' +
       [...kategoriler].map(k => `<option value="${k}">${k}</option>`).join('');
-
     depoFilter.innerHTML = '<option value="">Depo (Tümü)</option>' +
       [...depolar].map(d => `<option value="${d}">${d}</option>`).join('');
   }
 
-  // 3. Tabloda filtreleme uygula
-  function applyFilters() {
-    const search = searchInput.value.toLowerCase();
-    const kategori = kategoriFilter.value;
-    const depo = depoFilter.value;
-    const kritik = kritikFilter.checked;
-
-    const filtered = allData.filter(item => {
-      const matchSearch = item.urun_adi.toLowerCase().includes(search);
-      const matchKategori = kategori === "" || item.kategori_adi.includes(kategori);
-      const matchDepo = depo === "" || item.depo_adi === depo;
-      const matchKritik = !kritik || item.stok_sayisi < 50;
-
-      return matchSearch && matchKategori && matchDepo && matchKritik;
-    });
-
-    renderTable(filtered);
-  }
-
-  // 4. Tabloyu bastır
-  function renderTable(data) {
-    tableBody.innerHTML = "";
-    data.forEach(item => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${item.urun_adi}</td>
-        <td>${item.kategori_adi || "-"}</td>
-        <td>${item.depo_adi}</td>
-        <td style="color:${item.stok_sayisi < 50 ? 'red' : 'inherit'}">${item.stok_sayisi}</td>
-        <td>
-          <button class="edit-icon-btn open-modal-btn"
-            data-urun="${item.urun_adi}" 
-            data-depo="${item.depo_adi}" 
-            data-miktar="${item.stok_sayisi}">
-            <ion-icon name="create-outline"></ion-icon>
-          </button>
-        </td>
-      `;
-      tableBody.appendChild(row);
-    });
-  }
-
-  // 5. Veriyi çek
   fetch("/api/urun_stok_detay")
     .then(res => res.json())
     .then(data => {
       allData = groupData(data);
       fillDropdowns(allData);
       renderTable(allData);
+    })
+    .catch(err => {
+      console.error("Veri çekme hatası:", err);
+      showToast("Stok verisi yüklenemedi ❌");
     });
 
-  // 6. Filtre olayları
   searchInput.addEventListener("input", applyFilters);
   kategoriFilter.addEventListener("change", applyFilters);
   depoFilter.addEventListener("change", applyFilters);
   kritikFilter.addEventListener("change", applyFilters);
 });
 
-// ✏️ Modalı aç
-document.addEventListener("click", e => {
-  const button = e.target.closest(".open-modal-btn");
-  if (button) {
-    const urun = button.dataset.urun;
-    const depo = button.dataset.depo;
-    const miktar = button.dataset.miktar;
+document.addEventListener("click", (e) => {
+  const modalBtn = e.target.closest(".open-modal-btn");
+  if (modalBtn) {
+    const urun = modalBtn.dataset.urun;
+    const depo = modalBtn.dataset.depo;
+    const miktar = modalBtn.dataset.miktar;
 
     document.getElementById("modalUrun").textContent = `${urun} (${depo})`;
     document.getElementById("modalInput").value = miktar;
-    document.getElementById("saveBtn").dataset.urun = urun;
-    document.getElementById("saveBtn").dataset.depo = depo;
+    const saveBtn = document.getElementById("saveBtn");
+    saveBtn.dataset.urun = urun;
+    saveBtn.dataset.depo = depo;
     document.getElementById("stokModal").style.display = "flex";
+  }
+
+  const kritikBtn = e.target.closest(".btn-kritik-guncelle");
+  if (kritikBtn) {
+    const urun = kritikBtn.dataset.urun;
+    const depo = kritikBtn.dataset.depo;
+    const mevcut = Number(kritikBtn.dataset.mevcut);
+    const yeniMiktar = 60;
+
+    fetch("/api/stok_guncelle", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ urun_adi: urun, depo_adi: depo, yeni_miktar: yeniMiktar })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        return res.json();
+      })
+      .then(() => {
+        showToast(`${yeniMiktar - mevcut} adet ${urun} siparişi verildi ✅`);
+        const updated = allData.find(item => item.urun_adi === urun && item.depo_adi === depo);
+        if (updated) updated.stok_sayisi = yeniMiktar;
+        applyFilters();
+      })
+      .catch(err => {
+        console.error("HATA:", err);
+        showToast("Stok güncellenemedi ❌");
+      });
   }
 });
 
-function closeModal() {
-  document.getElementById("stokModal").style.display = "none";
-}
-
-// 💾 Stok güncelle
 document.getElementById("saveBtn").addEventListener("click", () => {
   const yeniMiktar = document.getElementById("modalInput").value;
   const urun = document.getElementById("saveBtn").dataset.urun;
@@ -141,29 +196,22 @@ document.getElementById("saveBtn").addEventListener("click", () => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ urun_adi: urun, depo_adi: depo, yeni_miktar: Number(yeniMiktar) })
   })
-  .then(res => res.json())
-  .then(() => {
-    closeModal();
-    showToast(); 
-    setTimeout(() => location.reload(), 1500); // Güncel verileri çek
-  });
+    .then(res => res.json())
+    .then(() => {
+      closeModal();
+      showToast();
+      const updated = allData.find(item => item.urun_adi === urun && item.depo_adi === depo);
+      if (updated) updated.stok_sayisi = Number(yeniMiktar);
+      applyFilters();
+    })
+    .catch(err => {
+      console.error("Stok güncelleme hatası:", err);
+      showToast("Stok güncellenemedi ❌");
+    });
 });
 
-// ✅ Toast fonksiyonu
-function showToast(message = "Stok başarıyla güncellendi") {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2000);
-}
-
 document.getElementById("exportBtn").addEventListener("click", () => {
-  // Şu anda filtrelenmiş tabloyu al
   const rows = document.querySelectorAll("#stokTableBody tr");
-
   const excelData = [["Ürün Adı", "Kategori", "Depo", "Miktar"]];
 
   rows.forEach(row => {

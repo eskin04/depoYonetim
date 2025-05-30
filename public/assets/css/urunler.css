@@ -278,7 +278,7 @@ body {
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   margin-left: 75px;
-  margin-top: 50px;
+  margin-top: 20px;
   width: 950px;
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
 
@@ -476,8 +476,8 @@ body {
   }
 }
 
-.navigation ul li:nth-child(7) {
-  margin-top: 240px;
+.navigation ul li:nth-child(9) {
+  margin-top: 110px;
 
 }
 
@@ -589,8 +589,8 @@ tr:hover .edit-icon-btn ion-icon {
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
-  margin: 20px 20px 0 20px; /* tablo ile hizalama */
-  padding-bottom: 10px;
+  margin-top: 20px;
+  margin-left: 150px; /* tablo ile hizalama */
 }
 
 .filter-area input,
@@ -633,5 +633,28 @@ tr:hover .edit-icon-btn ion-icon {
 
 .filter-area button:hover {
   background-color: #1e1a6f;
+}
+
+.btn-kritik-guncelle {
+  background-color: #198754; /* Bootstrap success yeşili */
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: background-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.btn-kritik-guncelle:hover {
+  background-color: #146c43;
+}
+
+.btn-kritik-guncelle ion-icon {
+  font-size: 18px;
 }
 
